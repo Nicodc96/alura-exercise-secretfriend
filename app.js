@@ -13,6 +13,7 @@ const inputTexto = document.querySelector("#amigo");
 const ulResultado = document.querySelector("#resultado");
 const arrayAmigos = [];
 
+// Oculta el texto de título de lista de amigos y el botón de reiniciar al comienzo de la app
 const hideTitleAndButtonReload = () => {
     listaAmigosTitulo.style.display = "none";
     btnReiniciar.style.display = "none";
@@ -44,8 +45,9 @@ textoIncorrecto.style.display = "none";
 
 const agregarAmigo = () => {
     if (inputTexto && inputTexto.value){
-        const regexValidator = /^[a-zA-Z]+$/;
+        const regexValidator = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/;
         if (!regexValidator.test(inputTexto.value)){
+            // Si el texto del input es incorrecto, con estas 2 líneas aviso visualmente al usuario del error
             inputTexto.classList.add("input-name-incorrecto");
             textoIncorrecto.style.display = "block";
         } else{
@@ -70,6 +72,7 @@ const sortearAmigo = () => {
     }
 }
 
+// Vacío el array, escondo elementos no utilizables, limpio los nodos que ya no se utilizan y vacío el input.
 const reiniciarSorteo = () => {
     arrayAmigos.length = 0;
     hideTitleAndButtonReload();
