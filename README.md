@@ -4,6 +4,10 @@ En este proyecto se desarrolló un pequeño ejercicio utilizando una plantilla H
 
 El ejercicio consistió en que, <i>a partir de un input de texto, poder ingresar nombres de amigos tantos como el usuario quiera y luego con un botón elegir uno de esos nombres (que se muestra visualmente) de manera aleatoria para revelar así el amigo secreto.</i>
 
+<div align='center'>
+<img src='https://i.ibb.co/b24ghsK/alura-insignia.webp' width='350px'>
+</div>
+
 #### ¿Cómo lo desarrollé yo?
 
 - En primer lugar, realicé algunos cambios visuales de colores y posicionado de elementos. Agregué algunos elementos como el título de la lista de amigos y un botón extra estilizado que permita reiniciar la aplicación.
