@@ -1,9 +1,3 @@
-/* 
-    El principal objetivo de este desafío es fortalecer tus habilidades
-    en lógica de programación. Aquí deberás desarrollar la lógica 
-    para resolver el problema.
-*/
-
 const listaAmigosTitulo = document.querySelector(".lista-amigos-titulo");
 const ulListaAmigos = document.querySelector("#listaAmigos");
 const btnAgregar = document.querySelector(".button-add");
@@ -11,15 +5,19 @@ const btnSortear = document.querySelector(".button-draw");
 const btnReiniciar = document.querySelector(".button-reload");
 const inputTexto = document.querySelector("#amigo");
 const ulResultado = document.querySelector("#resultado");
+const pTextIncorrecto = document.querySelector(".input-incorrecto-text");
 const arrayAmigos = [];
 
 // Oculta el texto de título de lista de amigos y el botón de reiniciar al comienzo de la app
 const hideTitleAndButtonReload = () => {
     listaAmigosTitulo.style.display = "none";
     btnReiniciar.style.display = "none";
-    
+    if (btnAgregar.hasAttribute("disabled")) btnAgregar.removeAttribute("disabled");
+    if (btnAgregar.classList.contains("btn-disabled")) btnAgregar.classList.remove("btn-disabled");
+    pTextIncorrecto.textContent = "¡El valor ingresado debe tener sólo letras!";
 }
 
+// Genera elementos <li></li> por cada item del array de amigos
 const mostrarListaAmigos = (lista) => {
     if (lista && lista.length > 0){
         limpiarLista(ulListaAmigos);
@@ -31,6 +29,7 @@ const mostrarListaAmigos = (lista) => {
     }
 }
 
+// Alternativa a innerHtml, elimina los nodos-hijos de un contenedor de manera segura.
 const limpiarLista = (contenedor) => {
     while (contenedor.hasChildNodes()){
         contenedor.removeChild(contenedor.firstElementChild);
@@ -48,12 +47,18 @@ const agregarAmigo = () => {
         const regexValidator = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/;
         if (!regexValidator.test(inputTexto.value)){
             // Si el texto del input es incorrecto, con estas 2 líneas aviso visualmente al usuario del error
+            pTextIncorrecto.textContent = "¡El valor ingresado debe tener sólo letras!";
             inputTexto.classList.add("input-name-incorrecto");
             textoIncorrecto.style.display = "block";
+        } else if (arrayAmigos.includes(inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase())){
+            // Si el nombre ya se encuentra en la lista, lo indico con el mensaje adecuado
+            inputTexto.classList.add("input-name-incorrecto");
+            textoIncorrecto.style.display = "block";
+            pTextIncorrecto.textContent = "¡El nombre ya se encuentra en la lista!";
         } else{
-            // Agrega el string con el primer caracter en mayúsculas y lo demás en minúsculas
             if (inputTexto.classList.contains("input-name-incorrecto")) inputTexto.classList.remove("input-name-incorrecto");        
             textoIncorrecto.style.display = "none";
+            // Agrega al array el texto ingresado pero con el primer caracter en mayúsculas y lo demás en minúsculas
             arrayAmigos.push(inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase());
             listaAmigosTitulo.style.display = "block";
             mostrarListaAmigos(arrayAmigos);
@@ -68,11 +73,16 @@ const sortearAmigo = () => {
         const liResultado = document.createElement("li");
         liResultado.textContent = `Tu amigo secreto es: ¡${arrayAmigos[randomAmigo()]}!`;
         ulResultado.appendChild(liResultado);
+        // Al sortear un amigo, muestro el botón de Reiniciar
         btnReiniciar.style.display = "flex";
+        // Impido que vuelva a sortear otro amigo limpiando la lista original.
+        btnAgregar.setAttribute("disabled", "");
+        btnAgregar.classList.add("btn-disabled");
+        arrayAmigos.length = 0;
     }
 }
 
-// Vacío el array, escondo elementos no utilizables, limpio los nodos que ya no se utilizan y vacío el input.
+// Se limpia el array, los nodos hijos del <ul></ul>, se oculta <div class="container-lista"> y el botón de reinicio
 const reiniciarSorteo = () => {
     arrayAmigos.length = 0;
     hideTitleAndButtonReload();
