@@ -36,6 +36,12 @@ const limpiarLista = (contenedor) => {
     }
 }
 
+const setIncorrectAdvice = (incorrectText) => {
+    inputTexto.classList.add("input-name-incorrecto");
+    textoIncorrecto.style.display = "block";
+    pTextIncorrecto.textContent = incorrectText;
+}
+
 hideTitleAndButtonReload();
 
 const randomAmigo = () => Math.floor(Math.random() * arrayAmigos.length);
@@ -45,21 +51,18 @@ textoIncorrecto.style.display = "none";
 const agregarAmigo = () => {
     if (inputTexto && inputTexto.value){
         const regexValidator = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/;
+        let inputTextoValidated = inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase();
         if (!regexValidator.test(inputTexto.value)){
-            // Si el texto del input es incorrecto, con estas 2 líneas aviso visualmente al usuario del error
-            pTextIncorrecto.textContent = "¡El valor ingresado debe tener sólo letras!";
-            inputTexto.classList.add("input-name-incorrecto");
-            textoIncorrecto.style.display = "block";
-        } else if (arrayAmigos.includes(inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase())){
+            // Si el texto del input es incorrecto, informo al usuario
+            setIncorrectAdvice("¡El valor ingresado debe tener sólo letras!");
+        } else if (arrayAmigos.includes(inputTextoValidated)){
             // Si el nombre ya se encuentra en la lista, lo indico con el mensaje adecuado
-            inputTexto.classList.add("input-name-incorrecto");
-            textoIncorrecto.style.display = "block";
-            pTextIncorrecto.textContent = "¡El nombre ya se encuentra en la lista!";
+            setIncorrectAdvice("¡El nombre ya se encuentra en la lista!");
         } else{
             if (inputTexto.classList.contains("input-name-incorrecto")) inputTexto.classList.remove("input-name-incorrecto");        
             textoIncorrecto.style.display = "none";
             // Agrega al array el texto ingresado pero con el primer caracter en mayúsculas y lo demás en minúsculas
-            arrayAmigos.push(inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase());
+            arrayAmigos.push(inputTextoValidated);
             listaAmigosTitulo.style.display = "block";
             mostrarListaAmigos(arrayAmigos);
             inputTexto.value = "";
