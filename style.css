@@ -231,4 +231,5 @@ ul {
 .btn-disabled,
 .btn-disabled:hover{
     background-color: var(--color-tertiary);
+    cursor:default;
 }
