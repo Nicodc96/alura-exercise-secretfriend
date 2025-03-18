@@ -52,6 +52,7 @@ const agregarAmigo = () => {
     if (inputTexto && inputTexto.value){
         const regexValidator = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/;
         let inputTextoValidated = inputTexto.value.toLowerCase()[0].toUpperCase() + inputTexto.value.slice(1).toLowerCase();
+        inputTextoValidated = inputTextoValidated.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remueve acentos en el string
         if (!regexValidator.test(inputTexto.value)){
             // Si el texto del input es incorrecto, informo al usuario
             setIncorrectAdvice("¡El valor ingresado debe tener sólo letras!");
